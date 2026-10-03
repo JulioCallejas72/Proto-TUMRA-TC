@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR México - Mis Logros</title>
+    
+    <style>
+    /* --- CSS: DISEÑO UNIFICADO Y ANIMACIONES --- */
+    :root {
+        --primary-teal: #4db6ac;
+        --nav-bg: #ffffff;
+        --text-dark: #333;
+        --card-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        color: var(--text-dark);
+        padding-bottom: 100px;
+        background-image: url('Fondo_Blanco_AzulMaya.png'); 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    
+    .header {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        position: sticky; top: 0; z-index: 100;
+    }
+    
+    .back-btn {
+        background: white; border: 1px solid #ddd;
+        padding: 10px 20px; border-radius: 20px; font-weight: 700; cursor: pointer;
+    }
+    
+    .total-badge {
+        background: var(--primary-teal);
+        padding: 8px 15px; border-radius: 20px; font-weight: 700; color: white;
+    }
+    
+    .stats-overview {
+        max-width: 1000px; margin: 30px auto; padding: 0 20px;
+        display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+    
+    .stat-card {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(8px);
+        border-radius: 20px; padding: 25px; text-align: center;
+        box-shadow: var(--card-shadow);
+    }
+    
+    .stat-value { font-size: 28px; font-weight: 900; color: var(--primary-teal); }
+    .stat-label { font-size: 12px; color: #666; text-transform: uppercase; }
+    
+    .category-section {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(8px);
+        border-radius: 25px; padding: 30px; margin: 0 20px 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .achievements-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;
+    }
+    
+    .achievement-card {
+        background: white; border-radius: 15px; padding: 20px;
+        box-shadow: var(--card-shadow); text-align: center; position: relative;
+        transition: 0.3s;
+    }
+    
+    /* ANIMACIÓN DE DESBLOQUEO */
+    .achievement-card.newly-unlocked {
+        animation: unlocked-anim 1s ease-out;
+        border: 2px solid var(--primary-teal);
+    }
+
+    @keyframes unlocked-anim {
+        0% { transform: scale(1); box-shadow: 0 0 0 rgba(77, 182, 172, 0); }
+        50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(77, 182, 172, 0.6); }
+        100% { transform: scale(1); box-shadow: var(--card-shadow); }
+    }
+
+    .achievement-card.locked { opacity: 0.5; filter: grayscale(1); }
+    .achievement-icon { font-size: 50px; margin-bottom: 10px; }
+    .achievement-name { font-size: 16px; font-weight: 700; }
+    .achievement-description { font-size: 12px; color: #777; line-height: 1.4; }
+    
+    /* BOTTOM NAV ORIGINAL */
+    nav.bottom-nav {
+        position: fixed; bottom: 0; left: 0; right: 0;
+        background: var(--nav-bg); height: 80px;
+        display: flex; justify-content: center; align-items: center; gap: 60px;
+        z-index: 1000; border-top: 1px solid #eee;
+    }
+    .nav-item { padding: 12px; cursor: pointer; }
+    .nav-item.active { background: #f0f0f0; border-radius: 50%; }
+    .nav-item.special { border: 2px solid #333; border-radius: 50%; }
+
+    .png-emoji { width: 28px; height: 28px; background-size: contain; background-repeat: no-repeat; background-position: center; display: inline-block; }
+    .icon-home { background-image: url('Emoji_Casa.png'); }
+    .icon-docs { background-image: url('Emoji_Documento.png'); }
+    .icon-eye { background-image: url('Emoji_Camara.png'); }
+    .icon-search-nav { background-image: url('Emoji_Lugares.png'); }
+    .icon-profile { background-image: url('Emoji_Perfil.png'); }
+</style>
+</head>
+<body>
+    
+    <header class="header">
+        <button class="back-btn" onclick="goBack()">volver</button>
+        <h1 class="header-title">🏆 MIS LOGROS</h1>
+        <div class="total-badge" id="totalBadge">0/0</div>
+    </header>
+    
+    <section class="stats-overview">
+        <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-value" id="totalUnlocked">0</div>
+            <div class="stat-label">Desbloqueados</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-value" id="completionRate">0%</div>
+            <div class="stat-label">Completado</div>
+        </div>
+    </section>
+    
+    <div class="categories-container" id="categoriesContainer">
+        </div>
+    
+    <nav class="bottom-nav">
+        <div class="nav-item" onclick="window.location.href='02-dashboard.html'">
+            <div class="png-emoji nav-icon icon-home"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='11-MenuContenidoE.html'">
+            <div class="png-emoji nav-icon icon-docs"></div>
+        </div>
+        <div class="nav-item special" onclick="window.location.href='03-scanner.html'">
+            <div class="png-emoji nav-icon icon-eye"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='04-passport.html'">
+            <div class="png-emoji nav-icon icon-search-nav"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='10-perfil.html'">
+            <div class="png-emoji nav-icon icon-profile"></div>
+        </div>
+    </nav>
+    
+    <script>
+    /* --- JAVASCRIPT: LÓGICA DE DESBLOQUEO Y ANIMACIÓN --- */
+
+    const achievementCategories = {
+        exploracion: {
+            name: 'Misión: Escaneo',
+            icon: '🔍',
+            achievements: [
+                { id: 'first_scan', name: 'Primer Descubrimiento', desc: 'Escanea tu primer lugar turístico', icon: '🎯', requirement: 1, type: 'scan' },
+                { id: 'three_scans', name: 'Trilogía Histórica', desc: 'Has escaneado 3 lugares diferentes', icon: '🏛️', requirement: 3, type: 'scan' }
+            ]
+        },
+        tecnologia: {
+            name: 'Misión: Realidad Aumentada',
+            icon: '📱',
+            achievements: [
+                { id: 'ar_viewer', name: 'Explorador 3D', desc: 'Usa la cámara para ver un modelo en tu espacio', icon: '📷', requirement: 1, type: 'ar' }
+            ]
+        }
+    };
+    
+    function renderCategories() {
+        const container = document.getElementById('categoriesContainer');
+        container.innerHTML = ''; // Limpiar
+        
+        // Cargar datos de localStorage
+        const scannedPlaces = JSON.parse(localStorage.getItem('scannedPlaces')) || [];
+        const arUsed = localStorage.getItem('arUsed') === 'true'; // Se activa al pulsar el botón AR en el visor
+        
+        let total = 0;
+        let unlockedCount = 0;
+
+        Object.keys(achievementCategories).forEach(catKey => {
+            const category = achievementCategories[catKey];
+            const section = document.createElement('div');
+            section.className = 'category-section';
+            
+            let html = `
+                <div class="category-header">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:24px">${category.icon}</span>
+                        <h2 style="font-size:20px">${category.name}</h2>
+                    </div>
+                </div>
+                <div class="achievements-grid">
+            `;
+
+            category.achievements.forEach(ach => {
+                total++;
+                let isUnlocked = false;
+                
+                // Lógica de validación
+                if (ach.type === 'scan') {
+                    isUnlocked = scannedPlaces.length >= ach.requirement;
+                } else if (ach.type === 'ar') {
+                    isUnlocked = arUsed;
+                }
+
+                if (isUnlocked) unlockedCount++;
+
+                // Detectar si es un desbloqueo reciente para animar
+                const wasNotified = localStorage.getItem(`notified_${ach.id}`);
+                const shouldAnimate = isUnlocked && !wasNotified;
+
+                if (shouldAnimate) {
+                    localStorage.setItem(`notified_${ach.id}`, 'true');
+                }
+
+                html += `
+                    <div class="achievement-card ${isUnlocked ? '' : 'locked'} ${shouldAnimate ? 'newly-unlocked' : ''}">
+                        <div style="position:absolute; top:10px; right:10px;">${isUnlocked ? '✅' : '🔒'}</div>
+                        <div class="achievement-icon">${ach.icon}</div>
+                        <div class="achievement-name">${ach.name}</div>
+                        <div class="achievement-description">${ach.desc}</div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            section.innerHTML = html;
+            container.appendChild(section);
+        });
+
+        // Actualizar marcadores generales
+        document.getElementById('totalBadge').textContent = `${unlockedCount}/${total}`;
+        document.getElementById('totalUnlocked').textContent = unlockedCount;
+        document.getElementById('completionRate').textContent = Math.round((unlockedCount / total) * 100) + '%';
+    }
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', renderCategories);
+
+    /* NAVEGACIÓN ORIGINAL */
+    function goBack() { window.location.href = '02-dashboard.html'; }
+</script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR México - Mis Lugares Desbloqueados</title>
+    
+    <style>
+        /* --- CSS: DISEÑO UNIFICADO (Estilo Dashboard) --- */
+        :root {
+            --primary-teal: #4db6ac;
+            --nav-bg: #ffffff;
+            --text-dark: #333;
+            --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: var(--text-dark);
+            padding-bottom: 100px;
+
+            /* FONDO: Imagen de mosaico unificada */
+            background-image: url('Fondo_Blanco_AzulMaya.png'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Contenedor Translúcido Principal */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.75); 
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .back-btn {
+            background: white;
+            border: 1px solid #ddd;
+            color: var(--text-dark);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover { background: #f0f0f0; }
+        
+        .header-title {
+            font-size: 24px;
+            font-weight: 300;
+        }
+        .header-title b { font-weight: 700; }
+        
+        .stats-badge {
+            background: var(--primary-teal);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        
+        /* Barra de Filtrado (Chips) */
+        .filters-section {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary-teal);
+            color: white;
+            border-color: var(--primary-teal);
+        }
+        
+        /* Grid de lugares con Imágenes de Exploración */
+        .places-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .place-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .place-card:hover { transform: translateY(-5px); }
+        
+        .place-image-container {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            background: #eee;
+        }
+
+        .place-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .place-category-label {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .place-info {
+            padding: 20px;
+        }
+        
+        .place-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .place-state {
+            font-size: 0.9rem;
+            color: var(--primary-teal);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .place-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .action-btn.primary {
+            background: var(--primary-teal);
+            color: white;
+            border: none;
+        }
+        
+       /* --- BARRA DE NAVEGACIÓN --- */
+nav.bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--nav-bg);
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    z-index: 1000;
+    border-top: 1px solid #eee;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+}
+
+.nav-item { 
+    padding: 12px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.nav-item.active { background: #f0f0f0; border-radius: 50%; }
+
+.nav-item.special { 
+    border: 2px solid #333; 
+    border-radius: 50%; 
+}
+
+@media (max-width: 600px) {
+    .container { padding: 20px; margin: 15px; }
+    nav.bottom-nav { gap: 30px; }
+}
+
+/* ============================================================
+   APARTADO PARA EMOJIS PNG LOCALES
+   Reemplaza 'nombre_archivo.png' con tus archivos reales.
+   ============================================================ */
+
+.png-emoji {
+    width: 28px;
+    height: 28px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+}
+
+/* Iconos de la Barra de Navegación */
+.nav-icon.png-emoji { width: 32px; height: 32px; }
+.icon-home { background-image: url('Emoji_Casa.png'); }
+.icon-docs { background-image: url('Emoji_Documento.png'); }
+.icon-eye { background-image: url('Emoji_Camara.png'); }
+.icon-search-nav { background-image: url('Emoji_Lugares.png'); }
+.icon-profile { background-image: url('Emoji_Perfil.png'); }
+
+/* ============================================================ */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+header h1 { font-size: 2.8rem; margin: 0; font-weight: 300; }
+header h1 b { font-weight: 700; display: block; }
+
+.header-icons {
+    display: flex;
+    gap: 25px;
+}
+
+/* --- RESPONSIVE --- */
+
+@media (max-width: 768px) {
+    .container { margin: 15px; padding: 20px; }
+    .info-grid { grid-template-columns: 1fr; }
+    nav.bottom-nav { gap: 30px; }
+    .location-control span { font-size: 0.9rem; }
+}
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <header class="header">
+            <button class="back-btn" onclick="window.location.href='02-dashboard.html'">Volver</button>
+            <h1 class="header-title">Mis <b>Lugares</b></h1>
+            <div class="stats-badge" id="statsCounter">0/0</div>
+        </header>
+        
+        <section class="filters-section">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="food">🌮 Comida</button>
+            <button class="filter-btn" data-filter="monument">🏛️ Monumentos</button>
+            <button class="filter-btn" data-filter="nature">🌿 Naturaleza</button>
+            <button class="filter-btn" data-filter="culture">🎭 Cultura</button>
+        </section>
+        
+        <div class="places-grid" id="placesGrid">
+            </div>
+    </div>
+    
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="window.location.href='02-dashboard.html'">
+            <div class="png-emoji nav-icon icon-home"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='11-MenuContenidoE.html'">
+            <div class="png-emoji nav-icon icon-docs"></div>
+        </div>
+        <div class="nav-item special" onclick="window.location.href='03-scanner.html'">
+            <div class="png-emoji nav-icon icon-eye"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='04-passport.html'">
+            <div class="png-emoji nav-icon icon-search-nav"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='10-perfil.html'">
+            <div class="png-emoji nav-icon icon-profile"></div>
+        </div>
+    </nav>
+    
+    <script>
+        // ===== BASE DE DATOS CON IMÁGENES DE EXPLORACIÓN =====
+        const allPlaces = [
+            { id: 1, name: 'Teotihuacán', state: 'Estado de México', img: 'https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=400', category: 'monument' },
+            { id: 2, name: 'Chichén Itzá', state: 'Yucatán', img: 'https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?w=400', category: 'monument' },
+            { id: 21, name: 'Tequila', state: 'Jalisco', img: 'https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/0a/a0/40/e6.jpg', category: 'food' },
+            { id: 4, name: 'Guadalajara', state: 'Jalisco', img: 'https://toursgdl.com/wp-content/uploads/2019/06/a-close-up-of-a-yellow-building-description-autom.jpeg.webp', category: 'culture' },
+            { id: 10, name: 'Cabo San Lucas', state: 'B.C.S.', img: 'https://villacdn.villagroupresorts.com/uploads/article/parallax_en/1689/optimizada_fun_facts_about_cabo_mexico_experiences.jpg', category: 'nature' }
+        ];
+        
+        let currentFilter = 'all';
+        
+        // ===== FUNCIONALIDAD DE FILTRADO MANTENIDA =====
+        function setupFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    renderPlaces();
+                });
+            });
+        }
+        
+        function renderPlaces() {
+            const grid = document.getElementById('placesGrid');
+            // Nota: En un entorno real filtraríamos por localStorage, 
+            // aquí mostramos la lógica funcional con los datos de ejemplo
+            let filtered = currentFilter === 'all' ? allPlaces : allPlaces.filter(p => p.category === currentFilter);
+            
+            grid.innerHTML = filtered.map(place => `
+                <div class="place-card">
+                    <div class="place-image-container">
+                        <img src="${place.img}" alt="${place.name}">
+                        <div class="place-category-label">${getCategoryName(place.category)}</div>
+                    </div>
+                    <div class="place-info">
+                        <h3 class="place-name">${place.name}</h3>
+                        <p class="place-state">📍 ${place.state}</p>
+                        <div class="place-actions">
+                            <button class="action-btn" onclick="window.location.href='04-passport.html'">Mapa</button>
+                            <button class="action-btn primary" onclick="alert('Cargando contenido educativo...')">Detalles</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('statsCounter').textContent = `${filtered.length}/${allPlaces.length}`;
+        }
+        
+        function getCategoryName(category) {
+            const names = { food: 'Comida', monument: 'Monumento', nature: 'Naturaleza', culture: 'Cultura' };
+            return names[category] || 'Otro';
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            setupFilters();
+            renderPlaces();
+        });
+    </script>
+</body>
+</html>

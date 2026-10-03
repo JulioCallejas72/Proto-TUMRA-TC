@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contenido Educativo AR - México</title>
+    
+    <style>
+        /* Aquí se agregará el CSS completo en el siguiente paso */
+        /* --- CSS: DISEÑO UNIFICADO DE CRISTAL --- */
+
+:root {
+    --primary-teal: #4db6ac;
+    --nav-bg: #ffffff;
+    --text-dark: #333;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    --transition: 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    color: var(--text-dark);
+    padding-bottom: 100px;
+    overflow-x: hidden;
+    /* Fondo unificado basado en tus proyectos anteriores */
+    background-image: url('Fondo_Blanco_AzulMaya.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.background-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.05);
+    z-index: -1;
+}
+
+/* Contenedor principal con efecto cristal */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: var(--glass-bg);
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    backdrop-filter: blur(10px);
+    min-height: 80vh;
+}
+
+/* --- ESTILOS DEL MENÚ (15+ Apartados) --- */
+
+.view-header {
+    display: flex;
+    flex-direction: column; /* Pone el texto uno abajo del otro */
+    align-items: center;    /* Centra horizontalmente */
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 40px;
+    width: 100%;           /* Asegura que ocupe todo el ancho para centrar */
+}
+
+/* Estilo para el nuevo botón de volver */
+.back-btn-dashboard {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px; /* Espacio antes del título */
+    transition: 0.3s;
+}   
+
+.view-header h1 { font-size: 2.5rem; font-weight: 300; }
+.view-header b { font-weight: 700; color: var(--primary-teal); }
+
+.edu-grid {
+    display: grid;
+    /* Grid responsivo para soportar 15 o más apartados */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.edu-item {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.edu-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.item-img {
+    height: 140px;
+    background-size: cover;
+    background-position: center;
+    background-color: #f0f0f0;
+}
+
+.item-name {
+    padding: 15px;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+/* --- ESTILOS VISTA DETALLE --- */
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.back-to-menu {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.back-to-menu:hover { background: #f0f0f0; }
+
+.location-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 700;
+}
+
+.nav-arrow {
+    background: var(--primary-teal);
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.hero-section {
+    position: relative;
+    height: 350px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.hero-img {
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: 0.5s ease;
+}
+
+.hero-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 30px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+}
+
+.badge {
+    background: var(--primary-teal);
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* Tarjetas y Grid de Información */
+
+/* Para que los contenedores resalten sobre el fondo */
+.card {
+    background: rgba(255, 255, 255, 0.95) !important; /* Más sólido para que se vea claro */
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+    display: block !important; /* Asegura que no se oculte */
+}
+
+.description-card {
+    border-left: 6px solid var(--primary-teal);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Para que el botón de video sea grande y fácil de presionar */
+.play-video-btn {
+    background: var(--primary-teal);
+    color: white;
+    width: 100%;          /* Ahora ocupa todo el ancho del contenedor */
+    padding: 20px;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.play-video-btn:hover { transform: scale(1.05); background: #3fa196; }
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 25px;
+}
+
+.info-section h3 {
+    margin-bottom: 15px;
+    color: var(--primary-teal);
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.scroll-content {
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+    padding-right: 10px;
+}
+
+/* Galería y Notas */
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.gallery-img {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    object-fit: cover;
+    background: #eee;
+}
+
+#notesArea {
+    width: 100%;
+    height: 120px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    resize: none;
+    font-family: inherit;
+    margin-bottom: 15px;
+}
+
+.save-btn {
+    width: 100%;
+    padding: 12px;
+    background: #eee;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.save-btn:hover { background: #e0e0e0; }
+
+/* --- MODAL DE VIDEO --- */
+
+.video-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-modal.active { display: flex; }
+
+.modal-content {
+    width: 90%;
+    max-width: 900px;
+    position: relative;
+}
+
+.iframe-container {
+    position: relative;
+    padding-bottom: 56.25%; /* Aspecto 16:9 */
+    height: 0;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.iframe-container iframe {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+}
+
+.close-modal {
+    position: absolute;
+    top: -45px; right: 0;
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+ /* --- BARRA DE NAVEGACIÓN --- */
+nav.bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--nav-bg);
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    z-index: 1000;
+    border-top: 1px solid #eee;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+}
+
+.nav-item { 
+    padding: 12px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.nav-item.active { background: #f0f0f0; border-radius: 50%; }
+
+.nav-item.special { 
+    border: 2px solid #333; 
+    border-radius: 50%; 
+}
+
+@media (max-width: 600px) {
+    .container { padding: 20px; margin: 15px; }
+    nav.bottom-nav { gap: 30px; }
+}
+
+/* ============================================================
+   APARTADO PARA EMOJIS PNG LOCALES
+   Reemplaza 'nombre_archivo.png' con tus archivos reales.
+   ============================================================ */
+
+.png-emoji {
+    width: 28px;
+    height: 28px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+}
+
+/* Iconos de la Barra de Navegación */
+.nav-icon.png-emoji { width: 32px; height: 32px; }
+.icon-home { background-image: url('Emoji_Casa.png'); }
+.icon-docs { background-image: url('Emoji_Documento.png'); }
+.icon-eye { background-image: url('Emoji_Camara.png'); }
+.icon-search-nav { background-image: url('Emoji_Lugares.png'); }
+.icon-profile { background-image: url('Emoji_Perfil.png'); }
+
+/* ============================================================ */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+header h1 { font-size: 2.8rem; margin: 0; font-weight: 300; }
+header h1 b { font-weight: 700; display: block; }
+
+.header-icons {
+    display: flex;
+    gap: 25px;
+}
+
+/* --- RESPONSIVE --- */
+
+@media (max-width: 768px) {
+    .container { margin: 15px; padding: 20px; }
+    .info-grid { grid-template-columns: 1fr; }
+    nav.bottom-nav { gap: 30px; }
+    .location-control span { font-size: 0.9rem; }
+}
+    </style>
+</head>
+<body>
+
+    <div class="background-overlay"></div>
+
+    <div class="container">
+        
+        <section id="menuView">
+            <button class="back-btn-dashboard" onclick="window.location.href='02-dashboard.html'">Volver</button>
+    
+           <header class="view-header">
+                <h1>Contenido <b>Educativo</b></h1>
+                <p>Selecciona un lugar</p>
+            </header>
+            
+            <div class="edu-grid" id="mainMenuGrid">
+                </div>
+        </section>
+
+        <section id="detailView" style="display: none;">
+            <header class="detail-header">
+                <button class="back-to-menu" id="btnBackMenu">Volver</button>
+                <div class="location-control">
+                    <button class="nav-arrow" id="prevPlace">◀</button>
+                    <span id="currentPlaceName">Nombre del Lugar</span>
+                    <button class="nav-arrow" id="nextPlace">▶</button>
+                </div>
+            </header>
+
+            <main class="content-wrapper">
+                <div class="hero-section">
+                    <div id="placeHeroImg" class="hero-img"></div>
+                    <div class="hero-info">
+                        <h2 id="placeTitle">Título</h2>
+                        <div class="badge" id="placeState">Estado</div>
+                    </div>
+                </div>
+
+                <div class="card description-card">
+                    <p id="placeDescription">Descripción detallada del lugar...</p>
+                    <button class="play-video-btn" id="btnPlayVideo">
+                        <span>▶</span> Reproducir Video Educativo
+                    </button>
+                </div>
+
+                <div class="info-grid">
+                    <section class="card info-section">
+                        <h3>📜 Historia</h3>
+                        <div id="placeHistory" class="scroll-content"></div>
+                    </section>
+
+                    <section class="card info-section">
+                        <h3>💡 Datos Curiosos</h3>
+                        <div id="placeFacts" class="scroll-content"></div>
+                    </section>
+
+                    <section class="card info-section">
+                        <h3>📸 Galería</h3>
+                        <div id="placeGallery" class="gallery-container">
+                            </div>
+                    </section>
+
+                    <section class="card info-section">
+                        <h3>📝 Mis Notas</h3>
+                        <textarea id="notesArea" placeholder="Escribe tus apuntes aquí..."></textarea>
+                        <button class="save-btn" id="btnSaveNotes">Guardar Notas</button>
+                    </section>
+                </div>
+            </main>
+        </section>
+
+    </div>
+
+    <div class="video-modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" id="btnCloseVideo">&times;</span>
+            <div class="iframe-container">
+                <iframe id="eduVideo" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+   <nav class="bottom-nav">
+        <div class="nav-item" onclick="window.location.href='02-dashboard.html'">
+            <div class="png-emoji nav-icon icon-home"></div>
+        </div>
+        <div class="nav-item active" onclick="window.location.href='11-MenuContenidoE.html'">
+            <div class="png-emoji nav-icon icon-docs"></div>
+        </div>
+        <div class="nav-item special" onclick="window.location.href='03-scanner.html'">
+            <div class="png-emoji nav-icon icon-eye"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='04-passport.html'">
+            <div class="png-emoji nav-icon icon-search-nav"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='10-perfil.html'">
+            <div class="png-emoji nav-icon icon-profile"></div>
+        </div>
+    </nav>
+
+    <script>
+        /* Aquí se agregará toda la lógica funcional en el paso final */
+        /* --- JAVASCRIPT: LÓGICA DE CONTENIDO Y NAVEGACIÓN --- */
+
+// 1. BASE DE DATOS: 15 Apartados con información detallada
+const placesData = [
+    {
+        id: 'teotihuacan',
+        name: 'Teotihuacán',
+        state: 'Estado de México',
+        description: 'Conocida como la Ciudad de los Dioses, fue uno de los centros urbanos más grandes del mundo antiguo.',
+        history: 'Construida entre el 100 a.C. y el 650 d.C., albergó a más de 125,000 habitantes en su apogeo.',
+        facts: 'La Pirámide del Sol es la tercera más grande del mundo y atrae a miles cada equinoccio.',
+        videoUrl: 'https://www.youtube.com/embed/LNZSFobKdvQ',
+        heroImg: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?w=800',
+        gallery: ['https://images.unsplash.com/photo-1512813498716-1e00f14d46b0?w=300', 'https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=300', 'https://images.unsplash.com/photo-1509204043128-4033327f31be?w=300']
+    },
+    {
+        id: 'chichen-itza',
+        name: 'Chichén Itzá',
+        state: 'Yucatán',
+        description: 'La ciudad maya más famosa del mundo y una de las 7 maravillas del mundo moderno.',
+        history: 'Fue el centro político y económico de la civilización maya entre los años 750 y 1200 d.C.',
+        facts: 'El Templo de Kukulkán tiene 365 escalones, representando los días del año solar.',
+        videoUrl: 'https://www.youtube.com/embed/MDxtCcjwSh0',
+        heroImg: 'https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?w=800',
+        gallery: ['https://images.unsplash.com/photo-1568402102990-bc541580b59f?w=300', 'https://images.unsplash.com/photo-1552623673-7050bb4004a1?w=300', 'https://images.unsplash.com/photo-1542311400-3498522e8f1f?w=300']
+    },
+    { id: 'palenque', name: 'Palenque', state: 'Chiapas', description: 'Impresionante zona arqueológica en la selva.', history: 'Famosa por la tumba del Rey Pakal.', facts: 'Es una de las ciudades mayas mejor conservadas.', videoUrl: '', heroImg: 'https://www.worldhistory.org/img/r/p/1000x1200/3097.jpg.webp?v=1741727705', gallery: [] },
+    { id: 'tulum', name: 'Tulum', state: 'Quintana Roo', description: 'Antigua ciudad amurallada frente al Mar Caribe.', history: 'Fue un puerto comercial clave para los mayas.', facts: 'Es el único sitio arqueológico frente al mar.', videoUrl: '', heroImg: 'https://images.unsplash.com/photo-1504730655501-24c39ac53f0e?w=800', gallery: [] },
+    { id: 'oaxaca', name: 'Monte Albán', state: 'Oaxaca', description: 'Capital espiritual de los zapotecos.', history: 'Fundada en una colina aplanada artificialmente.', facts: 'Cuenta con un observatorio astronómico único.', videoUrl: '', heroImg: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?w=800', gallery: [] },
+    { id: 'guadalajara', name: 'Hospicio Cabañas', state: 'Jalisco', description: 'Patrimonio de la Humanidad con murales de Orozco.', history: 'Antiguo orfanato y hospital del siglo XIX.', facts: 'Alberga "El Hombre en Llamas", obra maestra mural.', videoUrl: '', heroImg: 'https://i0.wp.com/foodandpleasure.com/wp-content/uploads/2024/03/museo-cabanas-en-guadalajara2.jpg?fit=1500%2C915&ssl=1', gallery: [] },
+    { id: 'guanajuato', name: 'Teatro Juárez', state: 'Guanajuato', description: 'Uno de los teatros más bellos de México.', history: 'Inaugurado en 1903 por Porfirio Díaz.', facts: 'Su estilo es neoclásico con columnas dóricas.', videoUrl: '', heroImg: 'https://laverdad.com.mx/wp-content/uploads/2020/03/Dw9fwK3VAAAwSx--1024x659.jpg', gallery: [] },
+    { id: 'puebla', name: 'Catedral de Puebla', state: 'Puebla', description: 'Joyas de la arquitectura novohispana.', history: 'Sus torres son de las más altas de México.', facts: 'Cuenta con 14 campanas de gran tamaño.', videoUrl: '', heroImg: 'https://images.trvl-media.com/place/6113676/c5c18e97-bf52-488e-82ce-67db6e1de41f.jpg', gallery: [] },
+    { id: 'taxco', name: 'Santa Prisca', state: 'Guerrero', description: 'Iglesia barroca en el corazón de la plata.', history: 'Financiada por el minero José de la Borda.', facts: 'Se construyó en solo 7 años.', videoUrl: '', heroImg: 'https://www.mexicodesconocido.com.mx/wp-content/uploads/2018/06/zamora-1024x640.jpg', gallery: [] },
+    { id: 'cancun', name: 'El Rey', state: 'Quintana Roo', description: 'Ruinas mayas en plena zona hotelera.', history: 'Nombrada así por un esqueleto hallado.', facts: 'Hoy es hogar de cientos de iguanas.', videoUrl: '', heroImg: 'https://images.unsplash.com/photo-1602088113235-229c19758e9f?w=800', gallery: [] },
+    { id: 'mexico-city', name: 'Templo Mayor', state: 'CDMX', description: 'El centro sagrado de los aztecas.', history: 'Descubierto accidentalmente en los años 70.', facts: 'Dedicado a Huitzilopochtli y Tlaloc.', videoUrl: '', heroImg: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?w=800', gallery: [] },
+    { id: 'uxmal', name: 'Uxmal', state: 'Yucatán', description: 'Representación máxima del estilo Puuc.', history: 'Su pirámide tiene bordes redondeados.', facts: 'La Pirámide del Adivino se construyó en una noche (leyenda).', videoUrl: '', heroImg: 'https://images.unsplash.com/photo-1568402102990-bc541580b59f?w=800', gallery: [] },
+    { id: 'monterrey', name: 'Macroplaza', state: 'Nuevo León', description: 'Una de las plazas más grandes del mundo.', history: 'Construida en los años 80 para modernizar el centro.', facts: 'Alberga el Faro del Comercio.', videoUrl: '', heroImg: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/4b/ec/c2/img-20190129-100003-largejpg.jpg?w=900&h=500&s=1', gallery: [] },
+    { id: 'morelia', name: 'Acueducto', state: 'Michoacán', description: 'Estructura colonial con 253 arcos.', history: 'Ayudó a traer agua a la ciudad en 1785.', facts: 'Es uno de los símbolos de Morelia.', videoUrl: '', heroImg: 'https://inah.gob.mx/images/fotodeldia/20231229_fotodia_AcueductoQueretaro.jpg', gallery: [] },
+    { id: 'veracruz', name: 'San Juan de Ulúa', state: 'Veracruz', description: 'Antigua fortaleza y prisión.', history: 'Sirvió como última defensa de España.', facts: 'Tiene muros hechos de coral.', videoUrl: '', heroImg: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/39/5d/b5/20191205-131539-largejpg.jpg?w=1200&h=1200&s=1', gallery: [] }
+];
+
+let currentIndex = 0;
+
+// 2. FUNCIÓN PARA CARGAR EL MENÚ DE 15 APARTADOS
+function initMenu() {
+    const grid = document.getElementById('mainMenuGrid');
+    grid.innerHTML = placesData.map((place, index) => `
+        <div class="edu-item" onclick="showDetail(${index})">
+            <div class="item-img" style="background-image: url('${place.heroImg}')"></div>
+            <div class="item-name">${place.name}</div>
+        </div>
+    `).join('');
+}
+
+// 3. CAMBIO DE VISTA Y CARGA DE DETALLES
+function showDetail(index) {
+    currentIndex = index;
+    const place = placesData[index];
+
+    // Alternar visibilidad de secciones
+    document.getElementById('menuView').style.display = 'none';
+    document.getElementById('detailView').style.display = 'block';
+
+    // Rellenar datos dinámicos
+    document.getElementById('currentPlaceName').innerText = place.name;
+    document.getElementById('placeTitle').innerText = place.name;
+    document.getElementById('placeState').innerText = place.state;
+    document.getElementById('placeDescription').innerText = place.description;
+    document.getElementById('placeHeroImg').style.backgroundImage = `url('${place.heroImg}')`;
+    document.getElementById('placeHistory').innerText = place.history;
+    document.getElementById('placeFacts').innerText = place.facts;
+
+    // Cargar Notas del LocalStorage
+    document.getElementById('notesArea').value = localStorage.getItem(`notes_${place.id}`) || "";
+
+    // Gestionar Botón de Video
+    const btnVideo = document.getElementById('btnPlayVideo');
+    btnVideo.style.display = place.videoUrl ? 'flex' : 'none';
+    btnVideo.onclick = () => openVideo(place.videoUrl);
+
+    // Cargar Galería
+    const galleryContainer = document.getElementById('placeGallery');
+    galleryContainer.innerHTML = place.gallery.length > 0 
+        ? place.gallery.map(img => `<img src="${img}" class="gallery-img">`).join('')
+        : '<p style="color:#999">No hay fotos disponibles.</p>';
+
+    window.scrollTo(0, 0);
+}
+
+// 4. REGRESAR AL MENÚ
+document.getElementById('btnBackMenu').onclick = function() {
+    document.getElementById('menuView').style.display = 'block';
+    document.getElementById('detailView').style.display = 'none';
+};
+
+// 5. NAVEGACIÓN ENTRE LUGARES (NEXT/PREV)
+document.getElementById('prevPlace').onclick = () => {
+    let nextIdx = currentIndex === 0 ? placesData.length - 1 : currentIndex - 1;
+    showDetail(nextIdx);
+};
+
+document.getElementById('nextPlace').onclick = () => {
+    let nextIdx = (currentIndex + 1) % placesData.length;
+    showDetail(nextIdx);
+};
+
+// 6. GUARDAR NOTAS
+document.getElementById('btnSaveNotes').onclick = function() {
+    const text = document.getElementById('notesArea').value;
+    const placeId = placesData[currentIndex].id;
+    localStorage.setItem(`notes_${placeId}`, text);
+    alert('✅ Notas guardadas correctamente.');
+};
+
+// 7. LÓGICA DEL MODAL DE VIDEO
+function openVideo(url) {
+    document.getElementById('eduVideo').src = url;
+    document.getElementById('videoModal').classList.add('active');
+}
+
+document.getElementById('btnCloseVideo').onclick = function() {
+    document.getElementById('videoModal').classList.remove('active');
+    document.getElementById('eduVideo').src = "";
+};
+
+// Cargar el menú al iniciar la página
+document.addEventListener('DOMContentLoaded', initMenu);
+    </script>
+
+</body>
+</html>

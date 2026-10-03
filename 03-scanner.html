@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escanear Modelo 3D - Estilo Unificado</title>
+    
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+    <button class="back-btn-pill" onclick="window.location.href='02-dashboard.html'">Volver</button>
+
+    <header class="centered-header">
+        <h1>Visor <b>3D AR</b></h1>
+    </header>
+
+    <!-- NUEVO: Contenedor del Iframe de Unity WebGL -->
+    <div id="unity-ar-view">
+        <!-- Reemplaza "ruta_a_tu_build/index.html" con la ruta real de tu carpeta de Unity -->
+        <iframe 
+            id="unity-iframe" 
+            src="./RAUnity/index.html" 
+            allow="camera; gyroscope; accelerometer; xr-spatial-tracking; fullscreen" 
+            frameborder="0">
+        </iframe>
+        <p class="instruction-text">Interactúa con el modelo 3D en tu entorno</p>
+    </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item" onclick="window.location.href='02-dashboard.html'">
+            <div class="png-emoji nav-icon icon-home"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='11-MenuContenidoE.html'">
+            <div class="png-emoji nav-icon icon-docs"></div>
+        </div>
+        <div class="nav-item special active" onclick="window.location.href='03-scanner.html'">
+            <div class="png-emoji nav-icon icon-eye"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='04-passport.html'">
+            <div class="png-emoji nav-icon icon-search-nav"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='10-perfil.html'">
+            <div class="png-emoji nav-icon icon-profile"></div>
+        </div>
+    </nav>
+
+    <audio id="coin-sound" src="https://www.myinstants.com/media/sounds/super-mario-coin.mp3"></audio>
+
+    <style>
+    /* --- VARIABLES Y ESTILOS DE CRISTAL --- */
+    :root {
+        --primary-teal: #4db6ac;
+        --nav-bg: #ffffff;
+        --text-dark: #333;
+        --glass-bg: rgba(255, 255, 255, 0.75);
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0; padding: 0;
+        min-height: 100vh;
+        display: flex; align-items: center; justify-content: center;
+        background: url('Fondo_Blanco_AzulMaya.png') center/cover no-repeat fixed;
+        padding-bottom: 100px;
+    }
+
+    /* Contenedor Principal con posición relativa para la flecha */
+    .container {
+        position: relative;
+        width: 90%; max-width: 500px; padding: 50px 40px 40px; /* Padding superior extra para la flecha */
+        background-color: var(--glass-bg);
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        backdrop-filter: blur(8px);
+        text-align: center;
+    }
+
+    /* ESTILO DE LA FLECHA DE RETORNO */
+    .back-arrow {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: white;
+        border: 1px solid #ddd;
+        width: 80px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.0rem;
+        font-weight: bold;
+        color: var(--text-dark);
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 100;
+    }
+
+    .back-arrow:hover {
+        background-color: #f0f0f0;
+        transform: scale(1.1);
+    }
+    .back-btn-pill {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1100; /* Por encima de todo */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+
+}
+
+/* --- AJUSTES DE ENCABEZADO Y BOTÓN --- */
+.centered-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.centered-header h1 {
+    font-size: 2.2rem !important; /* Ajustado para una sola línea */
+    margin: 0;
+    white-space: nowrap; /* Fuerza una sola línea */
+}
+
+.centered-header h1 b {
+    display: inline !important; /* Evita que el 'AR' salte de línea */
+    color: var(--primary-teal);
+}
+
+.back-btn-pill:hover { background: #f0f0f0; transform: scale(1.05); }
+
+    header h1 { font-size: 1.8rem; margin-bottom: 25px; font-weight: 300; }
+    header h1 b { font-weight: 700; color: var(--primary-teal); }
+
+    /* ESTILO DE LOS BOTONES DE LA CÁMARA */
+    #reader { border-radius: 20px; overflow: hidden; border: none !important; }
+
+    #reader button {
+        background-color: var(--primary-teal) !important;
+        color: white !important;
+        border: none !important;
+        padding: 12px 25px !important;
+        border-radius: 25px !important;
+        cursor: pointer !important;
+        font-weight: bold !important;
+        text-transform: uppercase;
+        font-size: 13px;
+        transition: 0.3s;
+        margin: 10px 5px;
+        box-shadow: 0 4px 10px rgba(77, 182, 172, 0.3);
+    }
+
+    #reader button:hover { opacity: 0.9; transform: scale(1.03); }
+
+    /* --- ESTILOS DEL IFRAME DE UNITY --- */
+    #unity-ar-view {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    #unity-iframe {
+        width: 100%;
+        height: 400px; /* Misma altura que tenía tu model-viewer */
+        border-radius: 20px;
+        background-color: #000; /* Fondo negro o gris mientras carga Unity */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Sombra para mantener la estética */
+        border: none;
+    }
+
+    /* ESTILO VISOR 3D */
+    model-viewer {
+        width: 100%; height: 350px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 20px; margin-bottom: 20px;
+    }
+
+    .ar-button {
+        background-color: var(--primary-teal); color: white; border: none;
+        padding: 14px 24px; border-radius: 25px; font-weight: bold;
+        position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        cursor: pointer; transition: 0.3s;
+    }
+
+    .ar-button:hover { background-color: #3fa196; transform: translateX(-50%) scale(1.05); }
+
+    .action-button { 
+        background: var(--text-dark); color: white; border: none; 
+        padding: 12px 24px; border-radius: 15px; font-weight: 700;
+        cursor: pointer; transition: 0.3s;
+    }
+
+    .instruction-text { margin-top: 20px; font-weight: 600; color: #555; }
+
+    /* --- BARRA DE NAVEGACIÓN --- */
+nav.bottom-nav {
+    position: fixed !important; /* No se mueve aunque se abra la cámara */
+    bottom: 0; 
+    left: 0; 
+    right: 0;
+    background: var(--nav-bg);
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    z-index: 2000; /* Z-index alto para que la cámara no la tape */
+    border-top: 1px solid #eee;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+}
+
+.nav-item { 
+    padding: 12px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.nav-item.active { background: #f0f0f0; border-radius: 50%; }
+
+.nav-item.special { 
+    border: 2px solid #333; 
+    border-radius: 50%; 
+}
+
+@media (max-width: 600px) {
+    .container { padding: 20px; margin: 15px; }
+    nav.bottom-nav { gap: 30px; }
+}
+
+/* ============================================================
+   APARTADO PARA EMOJIS PNG LOCALES
+   Reemplaza 'nombre_archivo.png' con tus archivos reales.
+   ============================================================ */
+
+.png-emoji {
+    width: 28px;
+    height: 28px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+}
+
+/* Iconos de la Barra de Navegación */
+.nav-icon.png-emoji { width: 32px; height: 32px; }
+.icon-home { background-image: url('Emoji_Casa.png'); }
+.icon-docs { background-image: url('Emoji_Documento.png'); }
+.icon-eye { background-image: url('Emoji_Camara.png'); }
+.icon-search-nav { background-image: url('Emoji_Lugares.png'); }
+.icon-profile { background-image: url('Emoji_Perfil.png'); }
+
+/* ============================================================ */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+header h1 { font-size: 2.8rem; margin: 0; font-weight: 300; }
+header h1 b { font-weight: 700; display: block; }
+
+.header-icons {
+    display: flex;
+    gap: 25px;
+}
+
+    /* Spinner de Carga */
+    #loading-screen {
+        position: absolute; top: 0; left: 0; width: 100%; height: 350px;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        z-index: 10; border-radius: 20px;
+    }
+
+    .spinner {
+        width: 40px; height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid var(--primary-teal);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 10px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+
+    <script>
+    // El iframe de Unity controla ahora la cámara y el modelo 3D.
+    // Este código escucha "mensajes" (postMessage) que Unity le envíe a tu HTML.
+
+    window.addEventListener("message", function(event) {
+        const data = event.data;
+
+        // 1. Reproducir sonido desde Unity
+        if (data.action === "playSound") {
+            const sound = document.getElementById('coin-sound');
+            if (sound) sound.play();
+        }
+
+        // 2. Lógica de Logros: Lugar descubierto en Unity
+        if (data.action === "placeScanned" && data.placeName) {
+            let scannedPlaces = JSON.parse(localStorage.getItem('scannedPlaces')) || [];
+            if (!scannedPlaces.includes(data.placeName)) {
+                scannedPlaces.push(data.placeName);
+                localStorage.setItem('scannedPlaces', JSON.stringify(scannedPlaces));
+                console.log("Nuevo lugar guardado para logros desde Unity: " + data.placeName);
+            }
+        }
+
+        // 3. Lógica para logro de cámara AR usada
+        if (data.action === "arSessionStarted") {
+            localStorage.setItem('arUsed', 'true');
+            console.log("Logro de cámara AR activado desde Unity");
+        }
+    });
+
+    document.getElementById('btn-reload').addEventListener('click', () => { location.reload(); });
+</script>
+</body>
+</html>

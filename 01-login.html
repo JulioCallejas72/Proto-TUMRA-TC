@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR México - Inicio de Sesión</title>
+    
+    <style>
+        /* El código CSS se insertará aquí */
+       
+    /* --- CSS: DISEÑO UNIFICADO DE CRISTAL --- */
+    :root {
+        --primary-teal: #4db6ac;
+        --nav-bg: #ffffff;
+        --text-dark: #333;
+        --glass-bg: rgba(255, 255, 255, 0.75); /* Transparencia al 0.75 */
+        --card-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        --transition: 0.3s ease;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Fondo unificado */
+        background-image: url('Fondo_Blanco_AzulMaya.png'); 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    /* Contenedor Translúcido */
+    .container {
+        width: 100%;
+        max-width: 450px;
+        margin: 20px;
+        padding: 40px;
+        background-color: var(--glass-bg);
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        backdrop-filter: blur(8px);
+        text-align: center;
+    }
+
+    header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .logo-circle {
+        width: 80px;
+        height: 80px;
+        background: var(--primary-teal);
+        color: white;
+        font-size: 2rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-bottom: 15px;
+        box-shadow: var(--card-shadow);
+    }
+
+    header h1 { font-size: 2.2rem; margin: 0; font-weight: 300; }
+    header h1 b { font-weight: 700; color: var(--primary-teal); }
+
+    .tagline {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 30px;
+    }
+
+    /* Estilos de Formulario */
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 15px 20px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        background: white;
+        font-size: 1rem;
+        outline: none;
+        transition: var(--transition);
+    }
+
+    .input-field:focus {
+        border-color: var(--primary-teal);
+        box-shadow: 0 0 10px rgba(77, 182, 172, 0.2);
+    }
+
+    /* Botones */
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .btn-login, .btn-guest {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 15px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .btn-login {
+        background: var(--primary-teal);
+        color: white;
+        box-shadow: 0 4px 15px rgba(77, 182, 172, 0.3);
+    }
+
+    .btn-guest {
+        background: #f0f0f0;
+        color: #555;
+        border: 1px solid #ddd;
+    }
+
+    .btn-login:hover, .btn-guest:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+
+    .link-forgot, .register-text {
+        font-size: 0.85rem;
+        color: #777;
+        text-decoration: none;
+        margin-top: 15px;
+    }
+
+    .link-forgot:hover, .link-register:hover {
+        color: var(--primary-teal);
+        text-decoration: underline;
+    }
+
+    .link-register {
+        color: var(--primary-teal);
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .divider {
+        height: 1px;
+        background: rgba(0,0,0,0.1);
+        margin: 25px 0;
+    }
+
+    /* Animación de carga */
+    .btn-login.loading {
+        color: transparent;
+        pointer-events: none;
+        position: relative;
+    }
+
+    .btn-login.loading::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        left: 50%;
+        margin: -10px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-circle">AR</div>
+            </div>
+            <h1>Inicia <b>Sesión</b></h1>
+        </header>
+
+        <p class="tagline">Descubre México en Realidad Aumentada</p>
+
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="username" 
+                    class="input-field" 
+                    placeholder="Email o usuario"
+                    required
+                >
+            </div>
+            
+            <div class="input-group">
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="input-field" 
+                    placeholder="Contraseña"
+                    required
+                >
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="btn-login" id="btnLogin">
+                    Entrar
+                </button>
+                <button type="button" class="btn-guest" id="btnGuest">
+                    Entrar como invitado
+                </button>
+            </div>
+            
+            <a href="#" class="link-forgot">¿Olvidaste tu contraseña?</a>
+        </form>
+
+        <div class="divider"></div>
+
+        <p class="register-text">
+            ¿No tienes cuenta? <a href="#" class="link-register">Regístrate</a>
+        </p>
+    </div>
+
+    <script>
+        /* El código JavaScript se insertará aquí */
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        const btnLogin = document.getElementById('btnLogin');
+        const btnGuest = document.getElementById('btnGuest');
+
+        // ===== INICIO DE SESIÓN NORMAL =====
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (username === '' || password === '') {
+                alert('Por favor, completa todos los campos');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            // Simular proceso de carga
+            btnLogin.classList.add('loading');
+            btnLogin.disabled = true;
+
+            setTimeout(() => {
+                // Guardar datos de sesión
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', username);
+                
+                // Redirigir al dashboard
+                window.location.href = '02-dashboard.html';
+            }, 1500);
+        });
+
+        // ===== ACCESO COMO INVITADO =====
+        btnGuest.addEventListener('click', function() {
+            // Configurar sesión de invitado
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', 'Invitado');
+            
+            // Redirigir al dashboard
+            window.location.href = '02-dashboard.html';
+        });
+    });
+
+    </script>
+</body>
+</html>
